@@ -1,6 +1,7 @@
 # MedStudyHub Landing Page
 
 This project contains a simple landing page for medical students with resources, flashcards, and premium content.
+The interface agora conta com modo claro e escuro, além de flashcards dinâmicos.
 
 ## Development
 
