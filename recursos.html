@@ -1,49 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recursos - MedStudyHub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recursos - MedStudyHub</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>MedStudyHub</h1>
-            <nav>
-                <button class="menu-toggle" aria-label="Abrir menu">&#9776;</button>
-                <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌙</button>
-                <ul class="nav-links">
-                    <li><a href="resumos.html">Resumos</a></li>
-                    <li><a href="flashcards.html">Flashcards</a></li>
-                    <li><a href="recursos.html">Recursos</a></li>
-                    <li><a href="contato.html">Contato</a></li>
-                </ul>
-            </nav>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>MedStudyHub</strong></li>
+    </ul>
+    <ul>
+      <li><a href="index.html#resumos">Resumos</a></li>
+      <li><a href="index.html#flashcards">Flashcards</a></li>
+      <li><a href="index.html#recursos">Recursos</a></li>
+      <li><a href="index.html#contato" role="button">Contato</a></li>
+      <li><button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Alternar modo claro/escuro" title="Alternar modo claro/escuro">🌙</button></li>
+    </ul>
+  </nav>
+  <main class="container">
+    <h2>Recursos</h2>
+    <section class="pricing">
+      <div class="pricing-table">
+        <div class="plan">
+          <h4>Gratuitos</h4>
+          <p>Material inicial para começar a estudar.</p>
         </div>
-    </header>
-    <main class="container">
-        <h2>Recursos</h2>
-        <section class="pricing">
-            <div class="pricing-table">
-                <div class="plan">
-                    <h4>Gratuitos</h4>
-                    <p>Material inicial para começar a estudar.</p>
-                </div>
-                <div class="plan">
-                    <h4>Premium</h4>
-                    <p>Acesso completo a todos os conteúdos.</p>
-                </div>
-                <div class="plan">
-                    <h4>Pro</h4>
-                    <p>Consultorias personalizadas e materiais exclusivos.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-    <script src="script.js"></script>
+        <div class="plan">
+          <h4>Premium</h4>
+          <p>Acesso completo a todos os conteúdos.</p>
+        </div>
+        <div class="plan">
+          <h4>Pro</h4>
+          <p>Consultorias personalizadas e materiais exclusivos.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>

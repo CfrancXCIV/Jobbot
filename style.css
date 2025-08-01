@@ -1,102 +1,284 @@
-:root {
-    --background: #ffffff;
-    --text-color: #333333;
-    --primary: #1a73e8;
-    --secondary: #0d6efd;
-    --accent: #6ae3ff;
-}
-
-body {
-    margin: 0;
-    font-family: 'Inter', Arial, sans-serif;
-    line-height: 1.6;
-    background: var(--background);
-    color: var(--text-color);
-    transition: background 0.3s, color 0.3s;
-    scroll-behavior: smooth;
-}
-
-body.dark-mode {
-    --background: #121212;
-    --text-color: #eeeeee;
-    --primary: #1a73e8;
-    --secondary: #0d6efd;
-    --accent: #6ae3ff;
-}
-
-.container {
-    width: 90%;
-    max-width: 960px;
-    margin: 0 auto;
-}
-
-header {
-    background-color: var(--primary);
-    color: #fff;
-    padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-header h1 {
-    margin: 0;
-}
-
-nav {
-    position: relative;
-}
-
-.menu-toggle {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 1.5rem;
-    display: none;
-    cursor: pointer;
-}
-
-.nav-links {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 1rem;
-}
-
-.nav-links a {
-    color: #fff;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.nav-links a:hover {
-    color: var(--accent);
-}
-
-.hero {
-    background: linear-gradient(135deg, var(--secondary), var(--accent));
-    color: #fff;
-    text-align: center;
-    padding: 4rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.hero h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-}
-
-.cta {
-    display: inline-block;
-    background: var(--secondary);
-    color: #fff;
-    padding: 0.75rem 1.5rem;
+    :root {
+      --bg-main: #f8fafc;
+      --bg-content: #fffefaee;
+      --bg-section: rgba(255,255,255,0.75);
+      --shadow-main: 0 4px 32px 0 rgba(160,180,200,0.07);
+      --shadow-card: 0 5px 32px rgba(80,120,140,0.08);
+      --shadow-card-active: 0 6px 32px rgba(44,90,140,0.18), 0 2px 12px rgba(120,200,150,0.05);
+      --card-border: #f1f1f1;
+      --text-main: #234;
+      --text-secondary: #556;
+      --green-main: #26a95c;
+      --green-bright: #38d87f;
+      --green-bg: #e5ffe7;
+      --card-gradient: linear-gradient(130deg, #f9fafe 90%, var(--green-bg) 120%);
+      --card-gradient-active: linear-gradient(130deg, #fff 80%, var(--green-bg) 130%);
+      --carousel-dot: #e0e0e0;
+      --carousel-dot-active: var(--green-bright);
+      --primary: var(--green-main);
+      --secondary: var(--green-main);
+      --accent: var(--green-bright);
+      --background: var(--bg-main);
+      --text-color: var(--text-main);
+    }
+    [data-theme="dark"] {
+      --bg-main: #141a21;
+      --bg-content: #232a33;
+      --bg-section: rgba(40,48,55,0.84);
+      --shadow-main: 0 4px 36px 0 rgba(30,50,70,0.13);
+      --shadow-card: 0 5px 30px rgba(30,50,70,0.11);
+      --shadow-card-active: 0 7px 36px rgba(32,90,110,0.24), 0 2px 16px rgba(80,210,180,0.07);
+      --card-border: #27353c;
+      --text-main: #d9f3e3;
+      --text-secondary: #87bfa2;
+      --green-main: #3be991;
+      --green-bright: #64ffb4;
+      --green-bg: #212f24;
+      --card-gradient: linear-gradient(130deg, #19242a 90%, #174127 120%);
+      --card-gradient-active: linear-gradient(130deg, #243b2f 80%, #18763c 130%);
+      --carousel-dot: #30443e;
+      --carousel-dot-active: var(--green-bright);
+      --primary: var(--green-main);
+      --secondary: var(--green-main);
+      --accent: var(--green-bright);
+      --background: var(--bg-main);
+      --text-color: var(--text-main);
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-main);
+      transition: background .35s;
+    }
+    nav {
+      margin-bottom: 2.5rem;
+      background: var(--bg-content);
+      box-shadow: 0 3px 18px 0 rgba(100, 110, 140, 0.05);
+      border-radius: 0 0 1rem 1rem;
+    }
+    main.container {
+      padding-top: 1.2rem;
+      padding-bottom: 2.5rem;
+      background: var(--bg-content);
+      border-radius: 1.3rem;
+      box-shadow: var(--shadow-main);
+      transition: background .32s;
+    }
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.3rem;
+      margin-bottom: 2.8rem;
+    }
+    .section-grid section {
+      background: var(--bg-section);
+      border-radius: 1.1rem;
+      padding: 1.5rem 1.3rem 1rem 1.3rem;
+      box-shadow: 0 1px 8px rgba(80,120,140,0.03);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .section-grid section hgroup h2 {
+      color: var(--text-main);
+      margin-bottom: .15em;
+    }
+    .section-grid section hgroup h3 {
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-top: 0;
+      margin-bottom: .55em;
+      opacity: .92;
+    }
+    .section-grid figure img {
+      max-height: 130px;
+      object-fit: cover;
+      border-radius: 0.9rem;
+      border: 1px solid var(--card-border);
+      margin-bottom: .5em;
+    }
+    .section-grid figure figcaption {
+      text-align: right;
+      font-size: 0.95em;
+      opacity: 0.7;
+      margin-bottom: .7em;
+    }
+    /* Carrossel Recursos */
+    .carousel-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2.2rem;
+      margin-bottom: 2.8rem;
+      background: var(--bg-section);
+      border-radius: 1.2rem;
+      padding: 3.3rem 1rem 2rem 1rem; /* padding-top aumentado */
+      box-shadow: 0 2px 24px rgba(70,110,170,0.09);
+      position: relative;
+      overflow: visible;
+      min-height: 380px;
+      transition: background 0.3s;
+      z-index: 10;
+    }
+    .carousel-title {
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .carousel {
+      position: relative;
+      width: 340px;
+      max-width: 100vw;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1100px;
+      margin: 0 auto;
+    }
+    .carousel-card {
+      width: 290px;
+      min-height: 210px;
+      background: var(--card-gradient);
+      border-radius: 1.1rem;
+      box-shadow: var(--shadow-card);
+      border: 1.5px solid var(--card-border);
+      text-align: center;
+      position: absolute;
+      left: 0; right: 0;
+      margin: 0 auto;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.85) rotateY(30deg);
+      transition: 
+        opacity 0.38s cubic-bezier(.52,1.58,.57,.85),
+        transform 0.45s cubic-bezier(.22,1.15,.6,1.01),
+        background 0.38s;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.2rem 1.6rem 1.2rem 1.6rem;
+      font-size: 1.08em;
+      color: var(--text-main);
+    }
+    .carousel-card.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: scale(1.04) rotateY(0);
+      z-index: 2;
+      box-shadow: var(--shadow-card-active);
+      background: var(--card-gradient-active);
+    }
+    .carousel-card:not(.active) {
+      filter: blur(1.5px) brightness(0.94);
+    }
+    .carousel-card h4 {
+      margin-bottom: 0.55em;
+      color: var(--green-main);
+      font-size: 1.35em;
+      font-weight: bold;
+      letter-spacing: .02em;
+    }
+    .carousel-card p {
+      color: var(--text-main);
+      font-size: 1em;
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+    .carousel-nav {
+      margin-top: 2.3em; /* maior para garantir não sobrepor */
+      display: flex;
+      justify-content: center;
+      gap: 1.3em;
+      position: relative;
+      z-index: 12;
+    }
+    .carousel-btn {
+      background: var(--bg-content);
+      border: 1.5px solid #d3e7db;
+      color: var(--green-main);
+      border-radius: 50%;
+      width: 44px; height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6em;
+      font-weight: bold;
+      box-shadow: 0 2px 7px rgba(52,105,92,0.04);
+      cursor: pointer;
+      transition: 
+        box-shadow 0.22s, 
+        background 0.22s, 
+        border 0.18s,
+        color 0.15s;
+      z-index: 13;
+      position: relative;
+    }
+    .carousel-btn:hover,
+    .carousel-btn:focus {
+      background: var(--green-bg);
+      color: #208a40;
+      border-color: #1bc06b;
+      box-shadow: 0 4px 15px rgba(50,180,100,0.07);
+      outline: none;
+    }
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 0.7em;
+      margin-top: 1.2em;
+    }
+    .carousel-dot {
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      background: var(--carousel-dot);
+      transition: background 0.23s;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .carousel-dot.active {
+      background: var(--carousel-dot-active);
+      border-color: #1bc06b;
+    }
+    .theme-toggle-btn {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: var(--green-main);
+      padding: 0.1em 0.5em 0.1em 0.5em;
+      border-radius: 50%;
+      transition: background 0.21s, color 0.21s;
+      outline: none;
+      margin-left: 0.4em;
+    }
+    .theme-toggle-btn:hover,
+    .theme-toggle-btn:focus {
+      background: var(--green-bg);
+      color: #166c36;
+    }
+    @media (max-width: 500px) {
+      .carousel, .carousel-card { width: 99vw; max-width: 99vw; min-width: 0;}
+      .carousel-card { padding: 1.4rem 0.7rem;}
+      .carousel-section { min-height: 340px; padding: 1.7rem 0.3rem 1.2rem 0.3rem; }
+    }
+    section[aria-label] {
+      background: var(--bg-section);
+      border-radius: 1.1rem;
+      box-shadow: 0 1px 8px rgba(80,120,140,0.03);
+      margin-top: 2rem;
+      transition: background 0.3s;
+    }
+    form.grid input, form.grid button {
+      margin-bottom: 0;
+    }
+    footer.container {
+      background: none;
+      border: none;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      text-align: center;
+      color: var(--text-secondary);
+    }
     text-decoration: none;
     border-radius: 4px;
     transition: background 0.3s, transform 0.3s;
