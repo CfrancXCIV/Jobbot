@@ -12,6 +12,7 @@
             <h1>MedStudyHub</h1>
             <nav>
                 <button class="menu-toggle" aria-label="Abrir menu">&#9776;</button>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌙</button>
                 <ul class="nav-links">
                     <li><a href="resumos.html">Resumos</a></li>
                     <li><a href="flashcards.html">Flashcards</a></li>
@@ -23,7 +24,19 @@
     </header>
     <main class="container">
         <h2>Contato</h2>
-        <p>Envie suas dúvidas para <a href="mailto:contato@medstudyhub.com">contato@medstudyhub.com</a>.</p>
+        <form class="contato-form">
+            <label>Nome:
+                <input type="text" required>
+            </label>
+            <label>Email:
+                <input type="email" required>
+            </label>
+            <label>Mensagem:
+                <textarea required></textarea>
+            </label>
+            <button type="submit">Enviar</button>
+        </form>
+        <p>Ou envie suas dúvidas para <a href="mailto:contato@medstudyhub.com">contato@medstudyhub.com</a>.</p>
     </main>
     <script src="script.js"></script>
 </body>
