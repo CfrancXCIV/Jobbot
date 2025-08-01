@@ -1,0 +1,14 @@
+{
+  "name": "jobbot",
+  "version": "1.0.0",
+  "description": "Landing page with Node server",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js --test",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
