@@ -1,81 +1,475 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedStudyHub - Resumos e Flashcards</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MedStudyHub - Resumos e Flashcards de Medicina</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-content: #fffefaee;
+      --bg-section: rgba(255,255,255,0.75);
+      --shadow-main: 0 4px 32px 0 rgba(160,180,200,0.07);
+      --shadow-card: 0 5px 32px rgba(80,120,140,0.08);
+      --shadow-card-active: 0 6px 32px rgba(44,90,140,0.18), 0 2px 12px rgba(120,200,150,0.05);
+      --card-border: #f1f1f1;
+      --text-main: #234;
+      --text-secondary: #556;
+      --green-main: #26a95c;
+      --green-bright: #38d87f;
+      --green-bg: #e5ffe7;
+      --card-gradient: linear-gradient(130deg, #f9fafe 90%, var(--green-bg) 120%);
+      --card-gradient-active: linear-gradient(130deg, #fff 80%, var(--green-bg) 130%);
+      --carousel-dot: #e0e0e0;
+      --carousel-dot-active: var(--green-bright);
+    }
+    [data-theme="dark"] {
+      --bg-main: #141a21;
+      --bg-content: #232a33;
+      --bg-section: rgba(40,48,55,0.84);
+      --shadow-main: 0 4px 36px 0 rgba(30,50,70,0.13);
+      --shadow-card: 0 5px 30px rgba(30,50,70,0.11);
+      --shadow-card-active: 0 7px 36px rgba(32,90,110,0.24), 0 2px 16px rgba(80,210,180,0.07);
+      --card-border: #27353c;
+      --text-main: #d9f3e3;
+      --text-secondary: #87bfa2;
+      --green-main: #3be991;
+      --green-bright: #64ffb4;
+      --green-bg: #212f24;
+      --card-gradient: linear-gradient(130deg, #19242a 90%, #174127 120%);
+      --card-gradient-active: linear-gradient(130deg, #243b2f 80%, #18763c 130%);
+      --carousel-dot: #30443e;
+      --carousel-dot-active: var(--green-bright);
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-main);
+      transition: background .35s;
+    }
+    nav {
+      margin-bottom: 2.5rem;
+      background: var(--bg-content);
+      box-shadow: 0 3px 18px 0 rgba(100, 110, 140, 0.05);
+      border-radius: 0 0 1rem 1rem;
+    }
+    main.container {
+      padding-top: 1.2rem;
+      padding-bottom: 2.5rem;
+      background: var(--bg-content);
+      border-radius: 1.3rem;
+      box-shadow: var(--shadow-main);
+      transition: background .32s;
+    }
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.3rem;
+      margin-bottom: 2.8rem;
+    }
+    .section-grid section {
+      background: var(--bg-section);
+      border-radius: 1.1rem;
+      padding: 1.5rem 1.3rem 1rem 1.3rem;
+      box-shadow: 0 1px 8px rgba(80,120,140,0.03);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .section-grid section hgroup h2 {
+      color: var(--text-main);
+      margin-bottom: .15em;
+    }
+    .section-grid section hgroup h3 {
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-top: 0;
+      margin-bottom: .55em;
+      opacity: .92;
+    }
+    .section-grid figure img {
+      max-height: 130px;
+      object-fit: cover;
+      border-radius: 0.9rem;
+      border: 1px solid var(--card-border);
+      margin-bottom: .5em;
+    }
+    .section-grid figure figcaption {
+      text-align: right;
+      font-size: 0.95em;
+      opacity: 0.7;
+      margin-bottom: .7em;
+    }
+    /* Carrossel Recursos */
+    .carousel-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2.2rem;
+      margin-bottom: 2.8rem;
+      background: var(--bg-section);
+      border-radius: 1.2rem;
+      padding: 3.3rem 1rem 2rem 1rem; /* padding-top aumentado */
+      box-shadow: 0 2px 24px rgba(70,110,170,0.09);
+      position: relative;
+      overflow: visible;
+      min-height: 380px;
+      transition: background 0.3s;
+      z-index: 10;
+    }
+    .carousel-title {
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .carousel {
+      position: relative;
+      width: 340px;
+      max-width: 100vw;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      perspective: 1100px;
+      margin: 0 auto;
+    }
+    .carousel-card {
+      width: 290px;
+      min-height: 210px;
+      background: var(--card-gradient);
+      border-radius: 1.1rem;
+      box-shadow: var(--shadow-card);
+      border: 1.5px solid var(--card-border);
+      text-align: center;
+      position: absolute;
+      left: 0; right: 0;
+      margin: 0 auto;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.85) rotateY(30deg);
+      transition: 
+        opacity 0.38s cubic-bezier(.52,1.58,.57,.85),
+        transform 0.45s cubic-bezier(.22,1.15,.6,1.01),
+        background 0.38s;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 2.2rem 1.6rem 1.2rem 1.6rem;
+      font-size: 1.08em;
+      color: var(--text-main);
+    }
+    .carousel-card.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: scale(1.04) rotateY(0);
+      z-index: 2;
+      box-shadow: var(--shadow-card-active);
+      background: var(--card-gradient-active);
+    }
+    .carousel-card:not(.active) {
+      filter: blur(1.5px) brightness(0.94);
+    }
+    .carousel-card h4 {
+      margin-bottom: 0.55em;
+      color: var(--green-main);
+      font-size: 1.35em;
+      font-weight: bold;
+      letter-spacing: .02em;
+    }
+    .carousel-card p {
+      color: var(--text-main);
+      font-size: 1em;
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+    .carousel-nav {
+      margin-top: 2.3em; /* maior para garantir não sobrepor */
+      display: flex;
+      justify-content: center;
+      gap: 1.3em;
+      position: relative;
+      z-index: 12;
+    }
+    .carousel-btn {
+      background: var(--bg-content);
+      border: 1.5px solid #d3e7db;
+      color: var(--green-main);
+      border-radius: 50%;
+      width: 44px; height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6em;
+      font-weight: bold;
+      box-shadow: 0 2px 7px rgba(52,105,92,0.04);
+      cursor: pointer;
+      transition: 
+        box-shadow 0.22s, 
+        background 0.22s, 
+        border 0.18s,
+        color 0.15s;
+      z-index: 13;
+      position: relative;
+    }
+    .carousel-btn:hover,
+    .carousel-btn:focus {
+      background: var(--green-bg);
+      color: #208a40;
+      border-color: #1bc06b;
+      box-shadow: 0 4px 15px rgba(50,180,100,0.07);
+      outline: none;
+    }
+    .carousel-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 0.7em;
+      margin-top: 1.2em;
+    }
+    .carousel-dot {
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      background: var(--carousel-dot);
+      transition: background 0.23s;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .carousel-dot.active {
+      background: var(--carousel-dot-active);
+      border-color: #1bc06b;
+    }
+    .theme-toggle-btn {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: var(--green-main);
+      padding: 0.1em 0.5em 0.1em 0.5em;
+      border-radius: 50%;
+      transition: background 0.21s, color 0.21s;
+      outline: none;
+      margin-left: 0.4em;
+    }
+    .theme-toggle-btn:hover,
+    .theme-toggle-btn:focus {
+      background: var(--green-bg);
+      color: #166c36;
+    }
+    @media (max-width: 500px) {
+      .carousel, .carousel-card { width: 99vw; max-width: 99vw; min-width: 0;}
+      .carousel-card { padding: 1.4rem 0.7rem;}
+      .carousel-section { min-height: 340px; padding: 1.7rem 0.3rem 1.2rem 0.3rem; }
+    }
+    section[aria-label] {
+      background: var(--bg-section);
+      border-radius: 1.1rem;
+      box-shadow: 0 1px 8px rgba(80,120,140,0.03);
+      margin-top: 2rem;
+      transition: background 0.3s;
+    }
+    form.grid input, form.grid button {
+      margin-bottom: 0;
+    }
+    footer.container {
+      background: none;
+      border: none;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>MedStudyHub</h1>
-            <nav>
-                <button class="menu-toggle" aria-label="Abrir menu">&#9776;</button>
-                <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema">🌙</button>
-                <ul class="nav-links">
-                    <li><a href="resumos.html">Resumos</a></li>
-                    <li><a href="flashcards.html">Flashcards</a></li>
-                    <li><a href="recursos.html">Recursos</a></li>
-                    <li><a href="contato.html">Contato</a></li>
-                </ul>
-            </nav>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>MedStudyHub</strong></li>
+    </ul>
+    <ul>
+      <li><a href="#resumos">Resumos</a></li>
+      <li><a href="#flashcards">Flashcards</a></li>
+      <li><a href="#recursos">Recursos</a></li>
+      <li><a href="#contato" role="button">Contato</a></li>
+      <li>
+        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Alternar modo claro/escuro" title="Alternar modo claro/escuro">🌙</button>
+      </li>
+    </ul>
+  </nav>
+  <main class="container">
+    <div class="section-grid">
+      <section>
+        <hgroup>
+          <h2>Estude Medicina de Forma Organizada</h2>
+          <h3>Resumos, flashcards e dicas criados por quem vive a rotina médica</h3>
+        </hgroup>
+        <img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=900&q=80" alt="Grupo de estudantes de medicina revisando juntos" class="hero-img">
+        <p>
+          O MedStudyHub é sua plataforma para simplificar o aprendizado médico, com conteúdo revisado, flashcards interativos e recursos úteis para turbinar seus estudos e alcançar seus objetivos. Descubra como organizar seu tempo, aprofundar matérias-chave e estudar de maneira colaborativa.
+        </p>
+        <a href="#recursos" role="button" class="contrast" style="margin-top:.8em;">Quero começar</a>
+      </section>
+      <section>
+        <hgroup>
+          <h2 id="resumos">Resumos Visuais</h2>
+          <h3>Entenda de forma rápida e didática</h3>
+        </hgroup>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=900&q=80" alt="Caderno de medicina e canetas coloridas">
+          <figcaption>
+            <a href="https://unsplash.com/photos/person-writing-on-white-paper-1515378791036-0648a3ef77b2" target="_blank">Unsplash</a>
+          </figcaption>
+        </figure>
+        <p>
+          Resumos organizados por assunto, diagramas, esquemas visuais e linguagem objetiva, preparados por estudantes e professores para facilitar sua revisão diária.
+        </p>
+      </section>
+      <section>
+        <hgroup>
+          <h2 id="flashcards">Flashcards Interativos</h2>
+          <h3>Fixe conteúdo de forma ativa</h3>
+        </hgroup>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=900&q=80" alt="Cartões de estudo sobre uma mesa">
+          <figcaption>
+            <a href="https://unsplash.com/photos/flashcards-on-desk-1464983953574-0892a716854b" target="_blank">Unsplash</a>
+          </figcaption>
+        </figure>
+        <p>
+          Revise conceitos essenciais com perguntas e respostas rápidas. Personalize seus próprios flashcards ou acesse os decks da comunidade para diferentes matérias do curso de Medicina.
+        </p>
+      </section>
+      <section>
+        <hgroup>
+          <h2>Dicas de Estudo & Rotina</h2>
+          <h3>Saúde mental e eficiência andam juntas</h3>
+        </hgroup>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=900&q=80" alt="Café, caderno e tablet sobre a mesa de estudos">
+          <figcaption>
+            <a href="https://unsplash.com/photos/study-tablet-1513258496099-48168024aec0" target="_blank">Unsplash</a>
+          </figcaption>
+        </figure>
+        <p>
+          Organize seu cronograma, aprenda a fazer pausas, use técnicas como pomodoro, e veja dicas de quem já passou pelos principais desafios do curso.
+        </p>
+      </section>
+    </div>
+    <!-- RECURSOS COM CARROSSEL -->
+    <section class="carousel-section" id="recursos">
+      <div class="carousel-title">
+        <hgroup>
+          <h2>Recursos</h2>
+          <h3>Para todas as fases do curso</h3>
+        </hgroup>
+      </div>
+      <div class="carousel" id="resourceCarousel">
+        <div class="carousel-card active" data-index="0">
+          <h4>Gratuito</h4>
+          <p>
+            Acesso livre a resumos essenciais,<br>
+            flashcards básicos e dicas de estudo.<br>
+            <br>
+            <span style="font-size:0.93em;color:#5ab672;opacity:.98;">Ideal para quem está começando!</span>
+          </p>
         </div>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <h2>Organize seus estudos de medicina</h2>
-            <p>Encontre resumos, flashcards e recursos para turbinar sua preparação.</p>
-            <a href="#recursos" class="cta">Explore agora</a>
+        <div class="carousel-card" data-index="1">
+          <h4>Premium</h4>
+          <p>
+            Conteúdo completo,<br>
+            atualização semanal, materiais de revisão exclusivos<br>
+            e suporte especializado.<br>
+            <br>
+            <span style="font-size:0.93em;color:#298c56;opacity:.98;">Para quem quer ir além e se destacar!</span>
+          </p>
         </div>
+      </div>
+      <div class="carousel-nav">
+        <button class="carousel-btn" id="carouselPrev" aria-label="Anterior">&lt;</button>
+        <button class="carousel-btn" id="carouselNext" aria-label="Próximo">&gt;</button>
+      </div>
+      <div class="carousel-indicators">
+        <span class="carousel-dot active" data-index="0"></span>
+        <span class="carousel-dot" data-index="1"></span>
+      </div>
     </section>
+  </main>
+  <section aria-label="Exemplo de inscrição">
+    <div class="container">
+      <article>
+        <hgroup>
+          <h2>Receba Novidades e Conteúdos</h2>
+          <h3>Assine e receba atualizações sobre materiais de estudo em medicina!</h3>
+        </hgroup>
+        <form class="grid">
+          <input type="text" id="firstname" name="firstname" placeholder="Seu nome" aria-label="Seu nome" required>
+          <input type="email" id="email" name="email" placeholder="Seu melhor e-mail" aria-label="Seu melhor e-mail" required>
+          <button type="submit" onclick="event.preventDefault()">Quero Receber</button>
+        </form>
+      </article>
+    </div>
+  </section>
+  <footer class="container" id="contato">
+    <small>
+      <a href="mailto:contato@medstudyhub.com.br">contato@medstudyhub.com.br</a> • 
+      <a href="https://www.instagram.com/" target="_blank">Instagram</a>
+    </small>
+    <br>
+    <small>&copy; 2025 MedStudyHub</small>
+  </footer>
+  <script>
+    // Carrossel dos Recursos
+    const cards = document.querySelectorAll('.carousel-card');
+    const dots = document.querySelectorAll('.carousel-dot');
+    let current = 0;
+    function showCard(index) {
+      cards.forEach((card, i) => {
+        card.classList.toggle('active', i === index);
+      });
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+      current = index;
+    }
+    document.getElementById('carouselNext').onclick = () => {
+      let next = (current + 1) % cards.length;
+      showCard(next);
+    }
+    document.getElementById('carouselPrev').onclick = () => {
+      let prev = (current - 1 + cards.length) % cards.length;
+      showCard(prev);
+    }
+    dots.forEach(dot => {
+      dot.onclick = () => showCard(Number(dot.dataset.index));
+    });
+    // Arraste no celular (extra)
+    let startX = null;
+    const carousel = document.getElementById('resourceCarousel');
+    carousel.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+    carousel.addEventListener('touchend', e => {
+      if (startX === null) return;
+      let endX = e.changedTouches[0].clientX;
+      if (endX - startX > 50) document.getElementById('carouselPrev').click();
+      if (startX - endX > 50) document.getElementById('carouselNext').click();
+      startX = null;
+    });
 
-    <section id="resumos" class="features">
-        <div class="container">
-            <h3>Resumos completos</h3>
-            <p>Material revisado por estudantes e professores para facilitar sua leitura.</p>
-        </div>
-    </section>
-
-    <section id="flashcards" class="features">
-        <div class="container">
-            <h3>Flashcards interativos</h3>
-            <p>Reveze entre perguntas e respostas para fixar o conteúdo.</p>
-        </div>
-    </section>
-
-    <section id="dicas" class="features">
-        <div class="container">
-            <h3>Dicas de estudo</h3>
-            <p>Mantenha uma rotina equilibrada e revise o conteúdo regularmente.</p>
-        </div>
-    </section>
-
-    <section id="recursos" class="pricing">
-        <div class="container">
-            <h3>Recursos</h3>
-            <div class="pricing-table">
-                <div class="plan">
-                    <h4>Gratuitos</h4>
-                    <p>Acesso a resumos básicos e flashcards iniciais.</p>
-                </div>
-                <div class="plan">
-                    <h4>Premium</h4>
-                    <p>Conteúdo completo, atualizações e suporte.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer id="contato">
-        <div class="container">
-            <p>&copy; 2025 MedStudyHub</p>
-        </div>
-    </footer>
-    <script src="script.js"></script>
+    // MODO ESCURO
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    function getPrefTheme() {
+      if (localStorage.getItem('theme')) return localStorage.getItem('theme');
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      themeToggleBtn.innerText = theme === 'dark' ? '🌞' : '🌙';
+      localStorage.setItem('theme', theme);
+    }
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme);
+    });
+    // Inicial
+    applyTheme(getPrefTheme());
+  </script>
 </body>
 </html>
