@@ -10,6 +10,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+        });
+    });
+
     if (themeToggle) {
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme === "dark") {
